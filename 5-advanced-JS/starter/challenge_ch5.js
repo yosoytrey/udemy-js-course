@@ -1,4 +1,4 @@
-// CODING CHALLENGE
+///// CODING CHALLENGE
 /*
 --- Let's build a fun quiz game in the console! ---
 
