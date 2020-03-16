@@ -423,11 +423,6 @@ c) correct answer (I would use a number for this)
         this.displayScore(sc);
     }
 
-    Question.prototype.displayScore = function(score) {
-        console.log('Your current score is: ' + score);
-        console.log('------------------------------');
-    }
-
 
     var q1 = new Question('Is JavaScript the coolest programming language in the world?',
                           ['Yes', 'No'],
@@ -442,6 +437,11 @@ c) correct answer (I would use a number for this)
                           2);
 
     var questions = [q1, q2, q3];
+
+    Question.prototype.displayScore = function(score) {
+        console.log('Your current score is: ' + score);
+        console.log('------------------------------');
+    }
 
     function score() {
         var sc = 0;

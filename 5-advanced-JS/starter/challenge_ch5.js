@@ -25,20 +25,33 @@ function Question(question, options, answer) {
     this.question = question
     this.options = options
     this.answer = answer
-    this.makeQuestion = function() {
-        console.log(this.question)
-        for (let i = 0; i < this.options.length; i++) {
-            console.log(`${i}: ${this.options[i]}`)
-        }
-    }
-    this.checkAnswer = function(ans) {
-        if (ans === this.answer) {
-            console.log('You are correct!')
-        } else {
-            console.log('Sorry, that is not correct.')
-        }
+}
+
+Question.prototype.makeQuestion = function() {
+    console.log(this.question)
+    for (let i = 0; i < this.options.length; i++) {
+        console.log(`${i}: ${this.options[i]}`)
     }
 }
+
+Question.prototype.checkAnswer = function(ans, callback) {
+    let sc;
+    if (ans === this.answer) {
+        console.log('You are correct!')
+        sc = callback(true)
+
+    } else {
+        console.log('Sorry, that is not correct.')
+        sc = callback(false)
+    }
+    this.displayScore(sc)
+}
+
+Question.prototype.displayScore = function(score) {
+    console.log(`Your current score is: ${score}.`)
+    console.log('---------------------')
+}
+
 // Create questions using the constructor
 let q1 = new Question('Who is the president of Ukraine?', ['Zelenska', 'Akhmetov', 'Zelensky', 'Nazarbayev'], 2)
 
@@ -53,6 +66,18 @@ let q5 = new Question('Which of the following numbers is largest?',['kilobyte','
 // Store them all inside an array
 let arrQuestions = [q1,q2,q3,q4,q5]
 
+function score() {
+    let sc = 0
+    return function(correct) {
+        if (correct) {
+            sc++
+        }
+        return sc
+    }
+}
+
+let keepScore = score()
+
 let playGame = function() {
 
     let r = Math.floor(Math.random() * arrQuestions.length)
@@ -61,7 +86,7 @@ let playGame = function() {
     let answer = prompt('Please select the correct answer to the question in the console. \n Type exit to leave the game.')
 
     if (answer !== 'exit') {
-        arrQuestions[r].checkAnswer(parseInt(answer))
+        arrQuestions[r].checkAnswer(parseInt(answer),keepScore)
         playGame()
     } else {
         console.log('Thank you for playing.')
@@ -69,9 +94,6 @@ let playGame = function() {
 }
 
 playGame()
-
-
-
 
 /*
 --- Expert level ---
