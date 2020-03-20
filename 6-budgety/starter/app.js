@@ -1,10 +1,10 @@
 
     //// BUDGET CONTROLLER
 
-let budgetController = (function() {
+var budgetController = (function() {
 
     // data set used for this project
-    let data = {
+    var data = {
         allItems: {
             exp: [],
             inc: []
@@ -18,21 +18,21 @@ let budgetController = (function() {
     }
 
     // define constructors for each income and each expense
-    let Expense = function(id, description, value) {
+    var Expense = function(id, description, value) {
         this.id = id
         this.description = description
         this.value = value
     }
 
-    let Income = function(id, description, value) {
+    var Income = function(id, description, value) {
         this.id = id
         this.description = description
         this.value = value
     }
 
     // calculates the totals. takes the type as an input
-    let calculateTotal = function(type) {
-        let sum = 0
+    var calculateTotal = function(type) {
+        var sum = 0
         data.allItems[type].forEach(function(cur) {
             sum += cur.value
         })
@@ -43,7 +43,7 @@ let budgetController = (function() {
     return {
         // adds item to the appropriate array (inc or exp)
         addItem: function(type, des, val) {
-            let newItem, ID
+            var newItem, ID
 
             // create new ID (check to see if it's greater than 0, if not set it to 0)
             if (data.allItems[type].length > 0) {
@@ -105,10 +105,10 @@ let budgetController = (function() {
 })()
 
     // UI CONTROLLER
-let UIController = (function() {
+var UIController = (function() {
 
     // sets the DOMstrings variables in a consolidated place
-    let DOMstrings = {
+    var DOMstrings = {
         inputType: '.add__type',
         inputDescription: '.add__description',
         inputValue: '.add__value',
@@ -140,18 +140,18 @@ let UIController = (function() {
 
         // this adds the new income/expense to the UI using the values from the input
         addListItem: function(obj, type) {
-            let html, newHtml, element
+            var html, newHtml, element
 
             // sets the html template for adding the new item to the UI (inc and exp)
             if (type === 'inc') {
                 element = DOMstrings.incomeContainer
 
-                html = '<div class="item clearfix" id="income-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>'
+                html = '<div class="item clearfix" id="income-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__devare"><button class="item__devare--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>'
 
             } else if (type === 'exp') {
                 element = DOMstrings.expensesContainer
 
-                html = '<div class="item clearfix" id="expense-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>'
+                html = '<div class="item clearfix" id="expense-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__percentage">21%</div><div class="item__devare"><button class="item__devare--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>'
 
             }
             //replaces the placeholder text with the actual inputs
@@ -165,7 +165,7 @@ let UIController = (function() {
 
         // clears the fields of description and value after each enter/click
         clearFields: function() {
-            let fields, fieldsArr
+            var fields, fieldsArr
 
             fields = document.querySelectorAll(DOMstrings.inputDescription + ', ' + DOMstrings.inputValue)
 
@@ -194,11 +194,11 @@ let UIController = (function() {
 
 
 // GLOBAL APP CONTROLLER
-let controller = (function(budgetCtrl, UICtrl) {
+var controller = (function(budgetCtrl, UICtrl) {
 
     // sets up the event listeners to wait for user input
-    let setupEventListeners = function() {
-        let DOM = UICtrl.getDOMstrings()
+    var setupEventListeners = function() {
+        var DOM = UICtrl.getDOMstrings()
 
         // captures the click action and then calls ctrlAddItem
         document.querySelector(DOM.inputBtn).addEventListener('click', ctrlAddItem)
@@ -212,13 +212,13 @@ let controller = (function(budgetCtrl, UICtrl) {
     }
 
     // updates the budget by calculating the budget and then returning it. Then displays the new budget
-    let updateBudget = function() {
+    var updateBudget = function() {
 
         // 1. calculate the budget
         budgetCtrl.calculateBudget()
 
         // 2. return the budget
-        let budget = budgetCtrl.getBudget()
+        var budget = budgetCtrl.getBudget()
 
         // 3. display the budget in the UI
         UICtrl.displayBudget(budget)
@@ -227,8 +227,8 @@ let controller = (function(budgetCtrl, UICtrl) {
     }
 
     // ctrlAddItem gets the input and makes sure it's valid. If it is, then adds the input to the budget Controller, adds the line item to the UI and then updates the budget.
-    let ctrlAddItem = function() {
-        let input, newItem
+    var ctrlAddItem = function() {
+        var input, newItem
 
         // 1. get the field input data
         input = UICtrl.getInput()
