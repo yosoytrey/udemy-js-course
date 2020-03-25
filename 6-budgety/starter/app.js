@@ -1,5 +1,4 @@
-
-    //// BUDGET CONTROLLER
+//// BUDGET CONTROLLER
 
 var budgetController = (function() {
 
@@ -104,7 +103,7 @@ var budgetController = (function() {
     }
 })()
 
-    // UI CONTROLLER
+// UI CONTROLLER
 var UIController = (function() {
 
     // sets the DOMstrings variables in a consolidated place
@@ -155,9 +154,9 @@ var UIController = (function() {
 
             }
             //replaces the placeholder text with the actual inputs
-                newHtml = html.replace('%id%', obj.id)
-                newHtml = newHtml.replace('%description%', obj.description)
-                newHtml = newHtml.replace('%value%', obj.value)
+            newHtml = html.replace('%id%', obj.id)
+            newHtml = newHtml.replace('%description%', obj.description)
+            newHtml = newHtml.replace('%value%', obj.value)
 
             // insert the income or expense line item into the DOM
             document.querySelector(element).insertAdjacentHTML('beforeend', newHtml)
@@ -205,9 +204,9 @@ var controller = (function(budgetCtrl, UICtrl) {
 
         // captures hitting the RETURN button and then calls ctrlAddItem
         document.addEventListener('keypress', function(event) {
-                if (event.keyCode === 13 || event.which === 13) {
-                    ctrlAddItem()
-                }
+            if (event.keyCode === 13 || event.which === 13) {
+                ctrlAddItem()
+            }
         })
     }
 
@@ -264,7 +263,7 @@ var controller = (function(budgetCtrl, UICtrl) {
             setupEventListeners()
         }
     }
-// the global controller app reads in the budget and UI modules when intialized
+    // the global controller app reads in the budget and UI modules when intialized
 })(budgetController, UIController)
 
 // starts the program
