@@ -1,4 +1,3 @@
-
 /*** CODING CHALLENGE 5
 John and his family went to 5 different restaurants. The bills were $124, $48, $268, $180 and $42.
 John likes to tip 20% of the bill when the bill is less than $50, 15% when the bill is between $50 and $200, and 10% if the bill is more than $200.
@@ -11,28 +10,28 @@ Implement a tip calculator using objects and loops:
 */
 
 let john = {
-            fullName: 'John Smith',
-            bills: [124.34, 148.99, 268.73, 180.06, 242.23],
-            calcTip: function() {
-                this.tips = []
-                this.totals = []
+    fullName: 'John Smith',
+    bills: [124.34, 148.99, 268.73, 180.06, 242.23],
+    calcTip: function() {
+        this.tips = []
+        this.totals = []
 
-                for (let i = 0; i < this.bills.length; i++) {
-                    let percentage
-                    let bill = this.bills[i]
+        for (let i = 0; i < this.bills.length; i++) {
+            let percentage
+            let bill = this.bills[i]
 
-                    if (bill < 50) {
-                        percentage = .2
-                    } else if (bill >= 50 && bill <= 200) {
-                        percentage = .15
-                    } else {
-                        percentage = .1
-                    }
-                    this.tips[i] = Math.round((percentage * bill) * 100) / 100
-                    this.totals[i] = bill + bill * percentage
-                }
+            if (bill < 50) {
+                percentage = .2
+            } else if (bill >= 50 && bill <= 200) {
+                percentage = .15
+            } else {
+                percentage = .1
             }
+            this.tips[i] = Math.round((percentage * bill) * 100) / 100
+            this.totals[i] = bill + bill * percentage
         }
+    }
+}
 /*
 EXTRA AFTER FINISHING: Mark's family also went on a holiday, going to 4 different restaurants. The bills were $77, $375, $110, and $45.
 Mark likes to tip 20% of the bill when the bill is less than $100, 10% when the bill is between $100 and $300, and 25% if the bill is more than $300 (different than John).
@@ -40,28 +39,28 @@ Mark likes to tip 20% of the bill when the bill is less than $100, 10% when the 
 */
 
 let mark = {
-            fullName: 'Mark Manson',
-            bills: [77.48, 375.88, 110.17, 45.06],
-            calcTip: function() {
-                this.tips = []
-                this.totals = []
+    fullName: 'Mark Manson',
+    bills: [77.48, 375.88, 110.17, 45.06],
+    calcTip: function() {
+        this.tips = []
+        this.totals = []
 
-                for (let i = 0; i < this.bills.length; i++) {
-                    let percentage
-                    let bill = this.bills[i]
+        for (let i = 0; i < this.bills.length; i++) {
+            let percentage
+            let bill = this.bills[i]
 
-                    if (bill < 100) {
-                        percentage = .1
-                    } else if (bill >= 100 && bill <= 300) {
-                        percentage = .15
-                    } else {
-                        percentage = .25
-                    }
-                    this.tips[i] = Math.round((percentage * bill) * 100) / 100
-                    this.totals[i] = bill + bill * percentage
-                }
+            if (bill < 100) {
+                percentage = .1
+            } else if (bill >= 100 && bill <= 300) {
+                percentage = .15
+            } else {
+                percentage = .25
             }
+            this.tips[i] = Math.round((percentage * bill) * 100) / 100
+            this.totals[i] = bill + bill * percentage
         }
+    }
+}
 
 // 6. Create a function (not a method) to calculate the average of a given array of tips. HINT: Loop over the array, and in each iteration store the current sum in a variable (starting from 0). After you have the sum of the array, divide it by the number of elements in it (that's how you calculate the average)
 
