@@ -5,12 +5,12 @@ var budgetController = (function() {
     // the data set used for this project
     var data = {
         allItems: {
-            exp: [],
-            inc: []
+            inc: [],
+            exp: []
         },
         totals: {
-            exp: 0,
-            inc: 0
+            inc: 0,
+            exp: 0
         },
         budget: 0,
         percentage: -1
@@ -78,12 +78,10 @@ var budgetController = (function() {
             // 3. calculate the percentage of income that we spent
             if (data.totals.inc > 0) {
                 data.percentage = Math.round((data.totals.exp / data.totals.inc) * 100)
-                console.log(data.percentage)
+                //    console.log(data.percentage)
             } else {
                 data.percentage = -1
             }
-
-
 
         },
         // returns the values for budget, income, expenses, and percentage
@@ -117,7 +115,8 @@ var UIController = (function() {
         budgetLabel: '.budget__value',
         incomeLabel: '.budget__income--value',
         expensesLabel: '.budget__expenses--value',
-        percentageLabel: '.budget__expenses--percentage'
+        percentageLabel: '.budget__expenses--percentage',
+        container: '.container'
 
     }
     // begin return of public functions
@@ -145,12 +144,12 @@ var UIController = (function() {
             if (type === 'inc') {
                 element = DOMstrings.incomeContainer
 
-                html = '<div class="item clearfix" id="income-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__devare"><button class="item__devare--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>'
+                html = '<div class="item clearfix" id="inc-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>'
 
             } else if (type === 'exp') {
                 element = DOMstrings.expensesContainer
 
-                html = '<div class="item clearfix" id="expense-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__percentage">21%</div><div class="item__devare"><button class="item__devare--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>'
+                html = '<div class="item clearfix" id="exp-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>'
 
             }
             //replaces the placeholder text with the actual inputs
@@ -208,6 +207,8 @@ var controller = (function(budgetCtrl, UICtrl) {
                 ctrlAddItem()
             }
         })
+        // listener for deleting an item
+        document.querySelector(DOM.container).addEventListener('click', ctrlDeleteItem)
     }
 
     // updates the budget by calculating the budget and then returning it. Then displays the new budget
@@ -248,6 +249,31 @@ var controller = (function(budgetCtrl, UICtrl) {
 
         }
     }
+
+    var ctrlDeleteItem = function(event) {
+        var itemID, splitID, type, ID
+
+        itemID = event.target.parentNode.parentNode.parentNode.parentNode.id
+
+        if (itemID) {
+
+            //inc-1
+            splitID = itemID.split('-');
+            type = splitID[0]
+            ID = splitID[1]
+
+            // 1. delete the item from the data structure
+
+
+            // 2. delete the item from the user interface.
+
+
+            // 3. update and show the new budget
+
+        }
+    }
+
+
     // begin return of public functions
 
     // this starts the app by using init and turning on the listeners
