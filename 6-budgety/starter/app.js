@@ -2,7 +2,7 @@
 
 var budgetController = (function() {
 
-    // data set used for this project
+    // the data set used for this project
     var data = {
         allItems: {
             exp: [],
