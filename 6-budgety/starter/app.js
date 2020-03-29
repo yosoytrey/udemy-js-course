@@ -192,117 +192,130 @@ var UIController = (function() {
         return sign + ' ' + int + '.' + dec;
     };
 
-// begin return of public functions
-return {
-
-    // gets the input from the UI fields
-    getInput: function() {
-        return {
-            type: document.querySelector(DOMstrings.inputType).value,
-            description: document.querySelector(DOMstrings.inputDescription).value,
-            value: parseFloat(document.querySelector(DOMstrings.inputValue).value)
+    var nodeListForEach = function(list, callback) {
+        for (var i = 0; i < list.length; i++) {
+            callback(list[i], i);
         }
-    },
+    };
 
-    //gets the values of the DOM strings to be used in the UI controller
-    getDOMstrings: function() {
-        return DOMstrings
-    },
+    // begin return of public functions
+    return {
 
-    displayDate: function() {
-        var now, year, month;
-
-        now = new Date();
-         year = now.getFullYear();
-         month = now.getMonth();
-         months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-
-         document.querySelector(DOMstrings.dateLabel).textContent = months[month] + ', ' + year;
-    },
-
-    // this adds the new income/expense to the UI using the values from the input
-    addListItem: function(obj, type) {
-        var html, newHtml, element
-
-        // sets the html template for adding the new item to the UI (inc and exp)
-        if (type === 'inc') {
-            element = DOMstrings.incomeContainer
-
-            html = '<div class="item clearfix" id="inc-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>'
-
-        } else if (type === 'exp') {
-            element = DOMstrings.expensesContainer
-
-            html = '<div class="item clearfix" id="exp-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>'
-
-        }
-        //replaces the placeholder text with the actual inputs
-        newHtml = html.replace('%id%', obj.id)
-        newHtml = newHtml.replace('%description%', obj.description)
-        newHtml = newHtml.replace('%value%', formatNumber(obj.value, type));
-
-        // insert the income or expense line item into the DOM
-        document.querySelector(element).insertAdjacentHTML('beforeend', newHtml)
-    },
-
-    deleteListItem: function(selectedID) {
-        var el;
-        // this pulls the element out of the DOM
-        el = document.getElementById(selectedID);
-        // this is done, because you can't delete an element in js, only a child.
-        el.parentNode.removeChild(el);
-    },
-
-    // clears the fields of description and value after each enter/click
-    clearFields: function() {
-        var fields, fieldsArr
-
-        fields = document.querySelectorAll(DOMstrings.inputDescription + ', ' + DOMstrings.inputValue)
-
-        fieldsArr = Array.prototype.slice.call(fields)
-
-        fieldsArr.forEach(function(current, index, array) {
-            current.value = ""
-        })
-        fieldsArr[0].focus()
-    },
-
-    displayBudget: function(obj) {
-        var type;
-        obj.budget >= 0 ? type = 'inc' : type = 'exp';
-
-        document.querySelector(DOMstrings.budgetLabel).textContent = formatNumber(obj.budget, type);
-        document.querySelector(DOMstrings.incomeLabel).textContent = formatNumber(obj.totalInc, type);
-        document.querySelector(DOMstrings.expensesLabel).textContent = formatNumber(obj.totalExp, type);
-
-        if (obj.percentage > 0) {
-            document.querySelector(DOMstrings.percentageLabel).textContent = obj.percentage + '%'
-        } else {
-            document.querySelector(DOMstrings.percentageLabel).textContent = '---'
-        }
-    },
-
-    displayPercentages: function(percentages) {
-
-        var fields = document.querySelectorAll(DOMstrings.expensesPercLabel);
-
-        var nodeListForEach = function(list, callback) {
-            for (var i = 0; i < list.length; i++) {
-                callback(list[i], i);
+        // gets the input from the UI fields
+        getInput: function() {
+            return {
+                type: document.querySelector(DOMstrings.inputType).value,
+                description: document.querySelector(DOMstrings.inputDescription).value,
+                value: parseFloat(document.querySelector(DOMstrings.inputValue).value)
             }
-        };
+        },
 
-        nodeListForEach(fields, function(current, index) {
-            if (percentages[index] > 0) {
-                current.textContent = percentages[index] + '%';
+        displayDate: function() {
+            var now, year, month;
+
+            now = new Date();
+            year = now.getFullYear();
+            month = now.getMonth();
+            months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+            document.querySelector(DOMstrings.dateLabel).textContent = months[month] + ', ' + year;
+        },
+
+        // this adds the new income/expense to the UI using the values from the input
+        addListItem: function(obj, type) {
+            var html, newHtml, element
+
+            // sets the html template for adding the new item to the UI (inc and exp)
+            if (type === 'inc') {
+                element = DOMstrings.incomeContainer
+
+                html = '<div class="item clearfix" id="inc-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>'
+
+            } else if (type === 'exp') {
+                element = DOMstrings.expensesContainer
+
+                html = '<div class="item clearfix" id="exp-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>'
+
+            }
+            //replaces the placeholder text with the actual inputs
+            newHtml = html.replace('%id%', obj.id)
+            newHtml = newHtml.replace('%description%', obj.description)
+            newHtml = newHtml.replace('%value%', formatNumber(obj.value, type));
+
+            // insert the income or expense line item into the DOM
+            document.querySelector(element).insertAdjacentHTML('beforeend', newHtml)
+        },
+
+        deleteListItem: function(selectedID) {
+            var el;
+            // this pulls the element out of the DOM
+            el = document.getElementById(selectedID);
+            // this is done, because you can't delete an element in js, only a child.
+            el.parentNode.removeChild(el);
+        },
+
+        // clears the fields of description and value after each enter/click
+        clearFields: function() {
+            var fields, fieldsArr
+
+            fields = document.querySelectorAll(DOMstrings.inputDescription + ', ' + DOMstrings.inputValue)
+
+            fieldsArr = Array.prototype.slice.call(fields)
+
+            fieldsArr.forEach(function(current, index, array) {
+                current.value = ""
+            })
+            fieldsArr[0].focus()
+        },
+
+        displayBudget: function(obj) {
+            var type;
+            obj.budget >= 0 ? type = 'inc' : type = 'exp';
+
+            document.querySelector(DOMstrings.budgetLabel).textContent = formatNumber(obj.budget, type);
+            document.querySelector(DOMstrings.incomeLabel).textContent = formatNumber(obj.totalInc, type);
+            document.querySelector(DOMstrings.expensesLabel).textContent = formatNumber(obj.totalExp, type);
+
+            if (obj.percentage > 0) {
+                document.querySelector(DOMstrings.percentageLabel).textContent = obj.percentage + '%'
             } else {
-                current.textContent = '---';
+                document.querySelector(DOMstrings.percentageLabel).textContent = '---'
             }
-        });
-    },
+        },
 
+        displayPercentages: function(percentages) {
 
-}
+            var fields = document.querySelectorAll(DOMstrings.expensesPercLabel);
+
+            nodeListForEach(fields, function(current, index) {
+                if (percentages[index] > 0) {
+                    current.textContent = percentages[index] + '%';
+                } else {
+                    current.textContent = '---';
+                }
+            });
+        },
+
+        changedType: function() {
+
+            var fields = document.querySelectorAll(
+                DOMstrings.inputType + ',' +
+                DOMstrings.inputDescription + ',' +
+                DOMstrings.inputValue);
+
+            nodeListForEach(fields, function(cur) {
+                cur.classList.toggle('red-focus');
+            });
+
+            document.querySelector(DOMstrings.inputBtn).classList.toggle('red');
+
+        },
+        //gets the values of the DOM strings to be used in the UI controller
+        getDOMstrings: function() {
+            return DOMstrings
+        },
+
+    }
 })()
 
 
@@ -323,8 +336,12 @@ var controller = (function(budgetCtrl, UICtrl) {
             }
         })
         // listener for deleting an item
-        document.querySelector(DOM.container).addEventListener('click', ctrlDeleteItem)
-    }
+        document.querySelector(DOM.container).addEventListener('click', ctrlDeleteItem);
+
+        document.querySelector(DOM.inputType).addEventListener('change', UICtrl.changedType);
+    };
+
+
 
     // updates the budget by calculating the budget and then returning it. Then displays the new budget
     var updateBudget = function() {
