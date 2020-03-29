@@ -140,7 +140,7 @@ var budgetController = (function() {
 
         // gets the percentages for all exp objects and stores them in an array. Use map because we're returning something, an array of all the percentages.
         getPercentages: function() {
-            var allPerc = data.allItems.exp.map(function(current){
+            var allPerc = data.allItems.exp.map(function(current) {
                 return current.getPercentage();
             });
             return allPerc;
@@ -169,105 +169,140 @@ var UIController = (function() {
         expensesLabel: '.budget__expenses--value',
         percentageLabel: '.budget__expenses--percentage',
         container: '.container',
-        expensesPercLabel: '.item__percentage'
+        expensesPercLabel: '.item__percentage',
+        dateLabel: '.budget__title--month'
+    };
 
-    }
-    // begin return of public functions
-    return {
+    var formatNumber = function(num, type) {
+        var numSplit, int, dec;
 
-        // gets the input from the UI fields
-        getInput: function() {
-            return {
-                type: document.querySelector(DOMstrings.inputType).value,
-                description: document.querySelector(DOMstrings.inputDescription).value,
-                value: parseFloat(document.querySelector(DOMstrings.inputValue).value)
-            }
-        },
+        num = Math.abs(num);
+        num = num.toFixed(2); //js converts the primitive to an object
 
-        //gets the values of the DOM strings to be used in the UI controller
-        getDOMstrings: function() {
-            return DOMstrings
-        },
+        numSplit = num.split('.');
+        int = numSplit[0];
+        dec = numSplit[1];
 
-        // this adds the new income/expense to the UI using the values from the input
-        addListItem: function(obj, type) {
-            var html, newHtml, element
-
-            // sets the html template for adding the new item to the UI (inc and exp)
-            if (type === 'inc') {
-                element = DOMstrings.incomeContainer
-
-                html = '<div class="item clearfix" id="inc-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>'
-
-            } else if (type === 'exp') {
-                element = DOMstrings.expensesContainer
-
-                html = '<div class="item clearfix" id="exp-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>'
-
-            }
-            //replaces the placeholder text with the actual inputs
-            newHtml = html.replace('%id%', obj.id)
-            newHtml = newHtml.replace('%description%', obj.description)
-            newHtml = newHtml.replace('%value%', obj.value)
-
-            // insert the income or expense line item into the DOM
-            document.querySelector(element).insertAdjacentHTML('beforeend', newHtml)
-        },
-
-        deleteListItem: function(selectedID) {
-            var el;
-            // this pulls the element out of the DOM
-            el = document.getElementById(selectedID);
-            // this is done, because you can't delete an element in js, only a child.
-            el.parentNode.removeChild(el);
-        },
-
-        // clears the fields of description and value after each enter/click
-        clearFields: function() {
-            var fields, fieldsArr
-
-            fields = document.querySelectorAll(DOMstrings.inputDescription + ', ' + DOMstrings.inputValue)
-
-            fieldsArr = Array.prototype.slice.call(fields)
-
-            fieldsArr.forEach(function(current, index, array) {
-                current.value = ""
-            })
-            fieldsArr[0].focus()
-        },
-
-        displayBudget: function(obj) {
-
-            document.querySelector(DOMstrings.budgetLabel).textContent = obj.budget
-            document.querySelector(DOMstrings.incomeLabel).textContent = obj.totalInc
-            document.querySelector(DOMstrings.expensesLabel).textContent = obj.totalExp
-
-            if (obj.percentage > 0) {
-                document.querySelector(DOMstrings.percentageLabel).textContent = obj.percentage + '%'
-            } else {
-                document.querySelector(DOMstrings.percentageLabel).textContent = '---'
-            }
-        },
-
-        displayPercentages: function(percentages) {
-
-            var fields = document.querySelectorAll(DOMstrings.expensesPercLabel);
-
-            var nodeListForEach = function(list, callback) {
-                for (var i = 0; i < list.length; i++) {
-                    callback(list[i], i);
-                }
-            };
-
-            nodeListForEach(fields, function(current, index) {
-                if (percentages[index] > 0) {
-                    current.textContent = percentages[index] + '%';
-                } else {
-                    current.textContent = '---';
-                }
-            });
+        if (int.length > 3) {
+            int = int.substr(0, int.length - 3) + ',' + int.substr(int.length - 3, 3);
         }
-    }
+
+        type === 'exp' ? sign = '-' : sign = '+';
+
+        return sign + ' ' + int + '.' + dec;
+    };
+
+// begin return of public functions
+return {
+
+    // gets the input from the UI fields
+    getInput: function() {
+        return {
+            type: document.querySelector(DOMstrings.inputType).value,
+            description: document.querySelector(DOMstrings.inputDescription).value,
+            value: parseFloat(document.querySelector(DOMstrings.inputValue).value)
+        }
+    },
+
+    //gets the values of the DOM strings to be used in the UI controller
+    getDOMstrings: function() {
+        return DOMstrings
+    },
+
+    displayDate: function() {
+        var now, year, month;
+
+        now = new Date();
+         year = now.getFullYear();
+         month = now.getMonth();
+         months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+         document.querySelector(DOMstrings.dateLabel).textContent = months[month] + ', ' + year;
+    },
+
+    // this adds the new income/expense to the UI using the values from the input
+    addListItem: function(obj, type) {
+        var html, newHtml, element
+
+        // sets the html template for adding the new item to the UI (inc and exp)
+        if (type === 'inc') {
+            element = DOMstrings.incomeContainer
+
+            html = '<div class="item clearfix" id="inc-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>'
+
+        } else if (type === 'exp') {
+            element = DOMstrings.expensesContainer
+
+            html = '<div class="item clearfix" id="exp-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>'
+
+        }
+        //replaces the placeholder text with the actual inputs
+        newHtml = html.replace('%id%', obj.id)
+        newHtml = newHtml.replace('%description%', obj.description)
+        newHtml = newHtml.replace('%value%', formatNumber(obj.value, type));
+
+        // insert the income or expense line item into the DOM
+        document.querySelector(element).insertAdjacentHTML('beforeend', newHtml)
+    },
+
+    deleteListItem: function(selectedID) {
+        var el;
+        // this pulls the element out of the DOM
+        el = document.getElementById(selectedID);
+        // this is done, because you can't delete an element in js, only a child.
+        el.parentNode.removeChild(el);
+    },
+
+    // clears the fields of description and value after each enter/click
+    clearFields: function() {
+        var fields, fieldsArr
+
+        fields = document.querySelectorAll(DOMstrings.inputDescription + ', ' + DOMstrings.inputValue)
+
+        fieldsArr = Array.prototype.slice.call(fields)
+
+        fieldsArr.forEach(function(current, index, array) {
+            current.value = ""
+        })
+        fieldsArr[0].focus()
+    },
+
+    displayBudget: function(obj) {
+        var type;
+        obj.budget >= 0 ? type = 'inc' : type = 'exp';
+
+        document.querySelector(DOMstrings.budgetLabel).textContent = formatNumber(obj.budget, type);
+        document.querySelector(DOMstrings.incomeLabel).textContent = formatNumber(obj.totalInc, type);
+        document.querySelector(DOMstrings.expensesLabel).textContent = formatNumber(obj.totalExp, type);
+
+        if (obj.percentage > 0) {
+            document.querySelector(DOMstrings.percentageLabel).textContent = obj.percentage + '%'
+        } else {
+            document.querySelector(DOMstrings.percentageLabel).textContent = '---'
+        }
+    },
+
+    displayPercentages: function(percentages) {
+
+        var fields = document.querySelectorAll(DOMstrings.expensesPercLabel);
+
+        var nodeListForEach = function(list, callback) {
+            for (var i = 0; i < list.length; i++) {
+                callback(list[i], i);
+            }
+        };
+
+        nodeListForEach(fields, function(current, index) {
+            if (percentages[index] > 0) {
+                current.textContent = percentages[index] + '%';
+            } else {
+                current.textContent = '---';
+            }
+        });
+    },
+
+
+}
 })()
 
 
@@ -378,7 +413,8 @@ var controller = (function(budgetCtrl, UICtrl) {
     // this starts the app by using init and turning on the listeners
     return {
         init: function() {
-            console.log('Application has started')
+            console.log('Application has started');
+            UICtrl.displayDate();
             UICtrl.displayBudget({
                 budget: 0,
                 totalInc: 0,
