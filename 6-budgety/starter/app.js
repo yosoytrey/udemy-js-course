@@ -177,7 +177,7 @@ var UIController = (function() {
         var numSplit, int, dec;
 
         num = Math.abs(num);
-        num = num.toFixed(2); //js converts the primitive to an object
+        num = num.toFixed(2); //js converts the primitive to an object.
 
         numSplit = num.split('.');
         int = numSplit[0];
