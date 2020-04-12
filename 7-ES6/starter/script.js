@@ -196,7 +196,7 @@ Person.prototype.myFriends6 = function(friends) {
 var friends = ['Chaika', 'Mina', 'Homi'];
 new Person('Trey').myFriends6(friends);
 */
-
+/*
 ///////////////////////////////
 // Lecture: Destructuring
 
@@ -229,8 +229,243 @@ console.log(object2);
 
 function calcAgeRetirement(year) {
     const age = new Date().getFullYear() - year;
-    return [age, 65 -age];
+    return [`age: ${age}`, `retirement:  ${65 - age}`];
 }
 
 const[age2, retirement] = calcAgeRetirement(1977);
 console.log(age2, retirement);
+*/
+/*
+///////////////////////
+// Lecture: Arrays
+
+// const boxes = document.querySelectorAll('.box');
+
+// remember, querySelectorAll returns a nodelist, not an array. So we have to turn it into an array.
+
+// ES5
+  var boxesArr5 = Array.prototype.slice.call(boxes);
+  boxesArr5.forEach(function(current) {
+      current.style.backgroundColor = 'dodgerblue';
+  });
+
+// and then if we want to change the words in the boxes, we have to use a for loop....
+
+for (let i = 0; i < boxesArr5.length; i++) {
+    if (boxesArr5[i].className === 'box blue') {
+        continue;
+    } else {
+        boxesArr5[i].textContent = 'I changed to blue';
+    }
+}
+
+// ES6 - leverages the new 'from method for arrays'
+// const boxesArr6 = Array.from(boxes);
+// boxesArr6.forEach(current => current.style.backgroundColor = 'dodgerblue');
+
+// even shorter.....
+// Array.from(boxes).forEach(current => current.style.backgroundColor = 'dodgerblue');
+
+// and now instead of a for loop, we have the for (..of..)
+for (const box of boxesArr6) {
+    if (box.className.includes('blue')) {
+        continue;
+    } else {
+        box.textContent = 'I changed to blue';
+    }
+}
+
+
+// findIndex method
+let ages = [12,18,8,22,14,11];
+let ofAge = ages.findIndex(cur => cur >= 21);
+console.log(ofAge);
+
+// find method
+console.log(ages.find(cur => cur >= 21));
+*/
+/*
+////////////////////
+// Lecture: Spread Operator
+
+function addFourAges(a,b,c,d) {
+    return a + b + c + d;
+}
+
+var sum1 = addFourAges(18,30,12,21);
+console.log(sum1);
+
+// ES5
+var ages = [18,30,12,21];
+var sum2 = addFourAges.apply(null,ages);
+console.log(sum2);
+
+// ES6
+// the spread operator(...) spreads out the elements of the array to be used by the addFourAges function
+
+const sum3 = addFourAges(...ages);
+console.log(sum3);
+
+// the spread operator can also be used to join arrays together (and add an element in the middle)
+const familySmith = ['John', 'Jane', 'Mark'];
+const familyMiller = ['Mary', 'Bob', 'Ann'];
+
+const bigFamily = [...familySmith, 'Lily', ...familyMiller];
+console.log(bigFamily);
+
+// it can also be used on a nodelist
+
+const h = document.querySelector('h1');
+const boxes = document.querySelectorAll('.box');
+
+const all = [h, ...boxes];
+
+Array.from(all).forEach(el => el.style.color = 'purple');
+*/
+/*
+//////////////////////
+// Lecture: Rest Parameters
+
+// ES5
+function isFullAge5(limit, age) {
+    var argsArr = Array.prototype.slice.call(arguments,1);
+
+    argsArr.forEach(function(year) {
+        console.log((2020 - year) >= limit);
+    });
+    console.log(argsArr);
+}
+
+console.log(isFullAge5(31, 1990, 1999, 1965, 2016, 1987));
+
+// ES6
+// ... in this case captures the arguments into an array called years. Then forEach parses the array into console.log using year for each element in the array)
+function isFullAge6(limit, ...years) {
+    years.forEach(year => console.log((2020 - year) >= 31));
+    console.log(years);
+}
+console.log(isFullAge6(21, 1990, 1999, 1965, 2016, 1987));
+*/
+/*
+/////////////////////
+// Lecture: Default Parameters
+
+//ES5
+// creating a SmithPerson and using some defaults if values are blank (lastName, nationality)
+function SmithPerson(firstName, yOB, lastName, nationality) {
+
+    lastName === undefined ? lastName = 'Smith' : lastName;
+    nationality === undefined ? nationality = 'American' : nationality;
+
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.yOB = yOB;
+    this.nationality = nationality;
+}
+
+var John = new SmithPerson('John', 1990);
+console.log(John);
+
+var Emily = new SmithPerson('Emily', 1983, 'Diaz', 'Spanish');
+console.log(Emily);
+
+// ES6
+
+function SmithPerson2(firstName, yOB, lastName = 'Smith', nationality = 'American') {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.yOB = yOB;
+    this.nationality = nationality;
+}
+*/
+/*
+/////////////////////
+// Lecture: Maps
+
+const question = new Map();
+question.set('question', 'What is the official name of the latest major JS version?');
+
+question.set(1, 'ES5');
+question.set(2, 'ES6');
+question.set(3, 'ES2015');
+question.set(4, 'ES7');
+question.set('answer', 3);
+question.set(true, 'Correct answer');
+question.set(false, 'Wrong answer. Please try again.');
+
+
+// get allows you to retrieve a value from the hash map using it's key.
+// console.log(question.get('question'));
+
+
+if (question.has(4)) {
+    // question.delete(4); // deletes the value with the key 4.
+    // console.log('Answer 4 is here');
+}
+// question.clear() // clears out the question map
+
+// hash maps are iterable, meaning you can use forEach and map and loops to pull out data.
+// question.forEach((value, key) => console.log(`This is ${key} and it's set to ${value}`));
+
+for (let [key, value] of question) {
+    console.log(`This is ${key} and it's set to ${value}`);
+}
+console.log('\n');
+for (let [key, value] of question.entries()) {
+    console.log(`This is ${key} and it's set to ${value}`);
+}
+
+console.log('\n');
+
+console.log(question);
+
+console.log(question.get('question'));
+for (let [key, value] of question) {
+    if (typeof(key) === 'number') {
+        console.log(`Option ${key}: ${value}`);
+    }
+}
+// console.log(`The answer is: ${question.get('answer')}`);
+
+const answer = parseInt(prompt('Write the correct answer'));
+
+// answer === question.get('answer')
+// this will either return true or false based on the ===. so then you take that and put it in the question.get() and it will return the string that matches to either the true or false value.
+
+console.log(question.get(answer === question.get('answer')));
+
+// why hash maps are better (summary)
+// 1. they can use anything for keys...strings, numbers, boolean
+// 2. they are iterable and so you can read through them and manipulate data with them
+// 3. you can easily get the size of the map you use map.size()
+*/
+
+///////////////////
+// Lecture: Classes
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// #
