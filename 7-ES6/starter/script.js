@@ -439,35 +439,125 @@ console.log(question.get(answer === question.get('answer')));
 // 2. they are iterable and so you can read through them and manipulate data with them
 // 3. you can easily get the size of the map you use map.size()
 */
-
+/*
 ///////////////////
 // Lecture: Classes
 
 
+// ES5
+var Person5 = function(name, yOB, job) {
+    this.name = name;
+    this.yOB = yOB;
+    this.job = job;
+};
+
+Person5.prototype.calculateAge = function() {
+    var age = new Date().getFullYear - this.yOB;
+    console.log(age);
+};
+
+var john5 = new Person5('John', 1990, 'teacher');
+console.log(john5);
+
+// ES6
+// NOTES
+// 1. every class has to have the constructor part. It serves to define the values that this class will have when created.
+// 2. classes are not hoisted like in Functions
+// 3. we can only add methods to classes, not properties.
 
 
+class Person6 {
+    constructor (name, yOB, job) {
+        this.name = name;
+        this.yOB = yOB;
+        this.job = job;
+    }
 
+    calculateAge() {
+        var age = new Date().getFullYear - this.yOB;
+        console.log(age);
+    }
 
+    static greeting() {
+        console.log('Hey there!');
+    }
+}
 
+const john6 = new Person6('John', 1990, 'teacher');
+console.log(john6);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Person6.greeting();
+*/
+/*
 //////////////////
 // Lecture: Classes with Subclasses
 
+// ES5
 
-// #
+// Person5 is the superclass and defines the Person5 object
+var Person5 = function(name, yOB, job) {
+    this.name = name;
+    this.yOB = yOB;
+    this.job = job;
+};
+
+// this adds a method to the object that is inherited by any Person5 object.
+Person5.prototype.calculateAge = function() {
+    var age = new Date().getFullYear() - this.yOB;
+    this.age = age;
+    //    console.log(age);
+};
+
+// Athlete5 is the subclass, which inherits the methods from Person5, like calculateAge
+var Athlete5 = function(name, yOB, job, olympicGames, medals) {
+    Person5.call(this, name, yOB, job);
+    this.olympicGames = olympicGames;
+    this.medals = medals;
+};
+
+// this creates an Athlete object that pulls in the methods from Person5 class
+Athlete5.prototype = Object.create(Person5.prototype);
+
+// this adds a method to the Athlete5 subclass that can be used by any Athlete subclass.
+Athlete5.prototype.wonMedal = function() {
+    this.medals++;
+    //    console.log(this.medals);
+};
+
+var johnAthlete5 = new Athlete5('John', 1990, 'swimmer', 3, 10);
+johnAthlete5.calculateAge();
+johnAthlete5.wonMedal();
+console.log(johnAthlete5);
+
+// ES6
+// this defines the super class
+class Person6 {
+    constructor(name, yOB, job) {
+        this.name = name;
+        this.yOB = yOB;
+        this.job = job;
+    }
+
+    calculateAge() {
+        var age = new Date().getFullYear() - this.yOB;
+        this.age = age;
+    }
+}
+// this is the subclass. Notice we use the super to refer to the superclass and not "this"
+class Athlete6 extends Person6 {
+    constructor(name, yOB, job, olympicGames, medals) {
+        super(name, yOB, job);
+        this.olympicGames = olympicGames;
+        this.medals = medals;
+    }
+
+    wonMedal() {
+        this.medals++;
+    }
+}
+
+const mikeAthlete6 = new Athlete6('Mike', 1985, 'diver', 5, 9);
+mikeAthlete6.wonMedal();
+mikeAthlete6.calculateAge();
+console.log(mikeAthlete6);
+*/
