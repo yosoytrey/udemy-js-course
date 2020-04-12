@@ -35,7 +35,7 @@ Streets (extends element)
 
 Parks Report
     - is probably a function
-    - leverage temlate strings
+    - 
 
 
 Streets Report
