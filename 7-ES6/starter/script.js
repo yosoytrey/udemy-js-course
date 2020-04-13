@@ -439,7 +439,7 @@ console.log(question.get(answer === question.get('answer')));
 // 2. they are iterable and so you can read through them and manipulate data with them
 // 3. you can easily get the size of the map you use map.size()
 */
-/*
+
 ///////////////////
 // Lecture: Classes
 
@@ -466,7 +466,7 @@ console.log(john5);
 // 3. we can only add methods to classes, not properties.
 
 
-class Person6 {
+class Person6a {
     constructor (name, yOB, job) {
         this.name = name;
         this.yOB = yOB;
@@ -483,12 +483,12 @@ class Person6 {
     }
 }
 
-const john6 = new Person6('John', 1990, 'teacher');
+const john6 = new Person6a('John', 1990, 'teacher');
 console.log(john6);
 
-Person6.greeting();
-*/
-/*
+Person6a.greeting();
+
+
 //////////////////
 // Lecture: Classes with Subclasses
 
@@ -560,4 +560,3 @@ const mikeAthlete6 = new Athlete6('Mike', 1985, 'diver', 5, 9);
 mikeAthlete6.wonMedal();
 mikeAthlete6.calculateAge();
 console.log(mikeAthlete6);
-*/

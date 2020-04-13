@@ -21,21 +21,26 @@ Elements
     - name
     - build year
 
-
 Parks (extends element)
     - number of trees
     - size of park (in acres)
-    - calculate tree density (# of trees / area of park)
-    - calculage age of park (current year - build year)
+    - calculate: tree density (# of trees / area of park)
+    - calculage: age of park (current year - build year)
 
 Streets (extends element)
     - length of street (miles)
     - size of street
 
+Street Size Hash
+    - tiny, small, normal, big, huge
 
-Parks Report
-    - is probably a function
-    - 
+Parks
+    1. City Park (1882, 3000 trees, 330 acres)
+    2. Cheeseman Park (1898, 1880 trees, 81 acres)
+    3. Washington Park(1899, 2305 trees, 165 acres)
 
-
-Streets Report
+Streets
+    1. Market Street, 1887, 5 miles, small
+    2. Washington St., 1934, 13 miles, normal
+    3. Colfax Ave., 1886, 50 miles, huge
+    4. Broadway Blvd, 1865, 20 miles, big
