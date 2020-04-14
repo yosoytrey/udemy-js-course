@@ -22,11 +22,6 @@ class Park extends Element {
         this.density = density.toFixed(2);
         console.log(`${this.name} has a tree density of ${this.density} trees per acre.`);
     }
-    // calculate the age of the park
-    calculateParkAge() {
-        let age = new Date().getFullYear() - this.yearBuilt;
-        this.age = age;
-    }
 }
 // extend class Element with subclass Street
 class Street extends Element {
@@ -43,15 +38,16 @@ class Street extends Element {
         classification.set(3, 'normal');
         classification.set(4, 'big');
         classification.set(5, 'huge');
+        console.log(`${this.name}, built in ${this.yearBuilt}, is a ${classification.get(this.size)} street.`);
     }
 }
-// create all parks for report
+// create all parks
 let allParks = [
     new Park('City Park', 1880, 3000, 330),
     new Park('Cheeseman Park', 1898, 1880, 81),
     new Park('Washington Park', 1899, 2305, 165)
 ];
-// create all streets for report
+// create all streets
 let allStreets = [
     new Street('Market Street', 1887, 5, 2),
     new Street('Washington St', 1934, 13, 3),
@@ -61,9 +57,48 @@ let allStreets = [
 
 // create park report
 const parkReports = (parks) => {
-    console.log('----Park Report----');
-    console.log(`Our 3 parks....`);
+    console.log('-----PARK REPORT-----');
+
+    // display the tree density for each park.
     parks.forEach(park => park.treeDensity());
+
+    // calculate the average age of the parks
+    const ages = parks.map(park => new Date().getFullYear() - park.yearBuilt);
+    const [totalAge, avgAge] = calc(ages);
+
+    // display the average age of the parks.
+    console.log(`Our ${parks.length} parks have an average of ${avgAge.toFixed(2)} years`);
+
+    // display the parks that have more than 2000 trees
+    parks.map(park => {
+        if (park.trees >= 2000) {
+            console.log(`${park.name} has more than 2000 trees.`);
+        }
+    });
 };
 
+// create street report.
+const streetReports = (streets) => {
+    console.log('\n');
+    console.log('-----STREET REPORT-----');
+
+    // calculate the total length and average length of the streets.
+    const lengths = streets.map(street => street.length);
+    const [totalLength, avgLength] = calc(lengths);
+
+    // display the total length and average length of the streets.
+    console.log(`Our ${streets.length} streets have a total length of ${totalLength.toFixed(2)} miles, with an average of ${avgLength.toFixed(2)} miles.`);
+
+    // display the street name, year it was built and the size of the street.
+    streets.forEach(street => street.classifyStreet());
+};
+
+// calculation function...returns sum and average of numbers in array
+const calc = (arr) => {
+    const sum = arr.reduce((prev, cur) => prev + cur);
+    return [sum, sum / arr.length];
+};
+
+// generate reports
 parkReports(allParks);
+streetReports(allStreets);
