@@ -25,7 +25,7 @@ class Park extends Element {
 }
 // extend class Element with subclass Street
 class Street extends Element {
-    constructor(name, yearBuilt, length, size = 'normal') {
+    constructor(name, yearBuilt, length, size = 3) {
         super(name, yearBuilt);
         this.length = length;
         this.size = size;
